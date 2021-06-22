@@ -1,0 +1,70 @@
+#
+# HydroQueue v3
+# A modern queue system.
+#
+# Unauthorized distribution is strictly forbidden
+# and can be legally prosecuted.
+#
+
+## PERMISSIONS BREAKDOWN
+# queue.join - allows joining queues if 'permission-by-default' is false
+# queue.join.[queue] - allows joining that restricted queue
+# queue.bypass - places you in the front of the queue
+# queue.admin - allows viewing queue info using /queue
+
+redis:
+  host: 'localhost'
+  port: 6379
+  auth:
+    enabled: false
+    password: ''
+
+# The interval, in seconds, that the plugin will contact the servers at.
+interval: 5
+
+# Whether or not users should have permission to join un-restricted queues by default.
+# true - they can
+# false - requires 'queue.join'
+permission-by-default: true
+
+messages:
+  joined-queue: '&aYou''ve been added to the &e{queue} &aqueue.'
+  left-queue: '&cYou''ve left the &e{queue} &cqueue.'
+  sending: '&aYou''re now being sent to &e{queue}&a.'
+  already-queued: '&cYou''re already queued for a server!'
+  not-queued: '&cYou''re not queued!'
+  failed: '&cFailed to send you to &e{queue}&c, please contact a Developer!'
+  no-perm: '&cYou''re not allowed to join queues!'
+  restricted-queue: '&cYou''re not allowed to join that queue!'
+  queue-unknown: '&cError: There is no queue named &e{queue}'
+
+  reminder:
+    - ''
+    - '&7You''re currently position &b{pos} &7out of &b{size}&7.'
+    - '&7&oRanks get higher priority in the queue, purchase at &bstore.example.com'
+    - '&7&oYou can leave the queue by executing: /leavequeue'
+    - ''
+
+  reminder-max:
+    - ''
+    - '&7You''re currently position &b{pos} &7out of &b{size}&7.'
+    - '&7&oRanks get higher priority in the queue, purchase at &bstore.example.com'
+    - '&7&oYou can leave the queue by executing: /leavequeue'
+    - '&cThe server you''re queued for is currently full.'
+    - ''
+
+  reminder-whitelisted:
+    - ''
+    - '&7You''re currently position &b{pos} &7out of &b{size}&7.'
+    - '&7&oRanks get higher priority in the queue, purchase at &bstore.example.com'
+    - '&7&oYou can leave the queue by executing: /leavequeue'
+    - '&cThe server you''re queued for is currently whitelisted.'
+    - ''
+
+  reminder-offline:
+    - ''
+    - '&7You''re currently position &b{pos} &7out of &b{size}&7.'
+    - '&7&oRanks get higher priority in the queue, purchase at &bstore.example.com'
+    - '&7&oYou can leave the queue by executing: /leavequeue'
+    - '&cThe server you''re queued for is currently offline.'
+    - ''

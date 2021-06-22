@@ -1,0 +1,19 @@
+name: HydroQueue
+version: ${project.version}
+main: me.hydro.queue.HydroQueue
+prefix: HQueue
+authors: [ Hydrogen ]
+description: A modern queue system.
+website: thehydrogen.xyz
+commands:
+  joinqueue:
+    aliases: [joinq]
+    description: Join a queue.
+    usage: /joinqueue <queue>
+  leavequeue:
+    aliases: [leaveq]
+    description: Leave your current queue.
+    usage: /leavequeue
+  queue:
+    description: View queue information.
+    usage: /queue <queue>

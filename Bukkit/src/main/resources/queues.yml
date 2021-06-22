@@ -1,0 +1,5 @@
+queues:
+  kitpvp:
+    display: 'KitPvP'
+    bungee: 'na-kitpvp-01'
+    restricted: false # true means the permission 'queue.join.kitpvp' would be required

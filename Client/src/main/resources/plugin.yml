@@ -1,0 +1,7 @@
+name: QueueClient
+version: ${project.version}
+main: me.hydro.queueclient.QueueClient
+prefix: QueueClient
+authors: [ Hydrogen ]
+description: Queue client for HydroQueue
+website: thehydrogen.xyz
