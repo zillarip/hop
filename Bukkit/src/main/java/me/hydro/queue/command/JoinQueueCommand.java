@@ -54,7 +54,7 @@ public class JoinQueueCommand implements TabExecutor {
         boolean bypass = player.hasPermission("queue.bypass");
 
         QueueManager.addToQueue(data, queue, bypass ? 0 : -1);
-        Messages.JOINED_QUEUE(queue);
+        player.sendMessage(Messages.JOINED_QUEUE(queue));
 
         return true;
     }
