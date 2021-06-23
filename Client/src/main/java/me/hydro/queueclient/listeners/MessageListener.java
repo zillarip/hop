@@ -44,7 +44,6 @@ public class MessageListener implements Listener {
                 break;
             }
             default: {
-                Logger.warn("Received unknown Redis packet. Is QueueClient up to date?");
             }
         }
     }
