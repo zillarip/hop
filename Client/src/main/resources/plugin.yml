@@ -1,7 +1,7 @@
-name: QueueClient
+name: zQClient
 version: ${project.version}
 main: me.hydro.queueclient.QueueClient
-prefix: QueueClient
-authors: [ Hydrogen ]
-description: Queue client for HydroQueue
-website: thehydrogen.xyz
+prefix: zQClient
+authors: [ Zilla ]
+description: Queue client for zQueue
+website: zilla.gg

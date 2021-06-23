@@ -1,10 +1,10 @@
-name: HydroQueue
+name: zQueue
 version: ${project.version}
 main: me.hydro.queue.HydroQueue
-prefix: HQueue
-authors: [ Hydrogen ]
-description: A modern queue system.
-website: thehydrogen.xyz
+prefix: zQueue
+authors: [ Zilla ]
+description: Modern queue system
+website: zilla.gg
 commands:
   joinqueue:
     aliases: [joinq]

@@ -73,19 +73,21 @@ public final class HydroQueue extends JavaPlugin {
                 new StatusPacket(redis, queue.getId()).send();
                 // TODO: error buffers
 
-                if (!receivedResponse.contains(queue.getId())) {
-                    for (UUID uuid : queue.getQueued()) {
-                        Player player = Bukkit.getPlayer(uuid);
-                        PlayerData data = PlayerData.players.get(uuid);
+                Bukkit.getScheduler().runTaskLater(HydroQueue.getInstance(), () -> {
+                    if (!receivedResponse.contains(queue.getId())) {
+                        for (UUID uuid : queue.getQueued()) {
+                            Player player = Bukkit.getPlayer(uuid);
+                            PlayerData data = PlayerData.players.get(uuid);
 
-                        int pos = QueueManager.getPlayerPos(data);
-                        int size = QueueManager.getQueued(data).getQueued().size();
+                            int pos = QueueManager.getPlayerPos(data);
+                            int size = QueueManager.getQueued(data).getQueued().size();
 
-                        Messages.REMINDER_FAIL(player, "offline", pos + 1, size);
-                    }
-                } else receivedResponse.remove(queue.getId());
+                            Messages.REMINDER_FAIL(player, "offline", pos + 1, size);
+                        }
+                    } else receivedResponse.remove(queue.getId());
+                }, 10L);
             }
-        }, 0L, settings.getConfig().getInt("interval") * 20L);
+        }, 0L, (settings.getConfig().getInt("interval") * 20L) + 15L);
 
         Logger.success("HydroQueue is ready to go!");
     }
