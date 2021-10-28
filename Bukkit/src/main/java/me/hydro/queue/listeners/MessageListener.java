@@ -1,6 +1,6 @@
 package me.hydro.queue.listeners;
 
-import me.hydro.common.redis.event.RedisMessageEvent;
+import me.hydro.common.event.RedisMessageEvent;
 import me.hydro.queue.HydroQueue;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.PlayerData;
@@ -34,7 +34,7 @@ public class MessageListener implements Listener {
                         int pos = QueueManager.getPlayerPos(data);
                         int size = QueueManager.getQueued(data).getQueued().size();
 
-                        Messages.REMINDER(data.getPlayer(), pos + 1, size);
+                        Messages.reminder(data.getPlayer(), pos + 1, size);
                     }
                 });
 
@@ -49,7 +49,7 @@ public class MessageListener implements Listener {
                 }
 
                 first.getPlayer().sendPluginMessage(HydroQueue.getInstance(), "BungeeCord", b.toByteArray());
-                first.getPlayer().sendMessage(Messages.SENDING(queue.getName()));
+                first.getPlayer().sendMessage(Messages.sending(queue.getName()));
 
                 acknowledged(server);
                 break;
@@ -68,7 +68,7 @@ public class MessageListener implements Listener {
                             int pos = QueueManager.getPlayerPos(data);
                             int size = QueueManager.getQueued(data).getQueued().size();
 
-                            Messages.REMINDER_FAIL(data.getPlayer(), "max", pos + 1, size);
+                            Messages.reminderFail(data.getPlayer(), "max", pos + 1, size);
                         });
 
                         break;
@@ -78,7 +78,7 @@ public class MessageListener implements Listener {
                             int pos = QueueManager.getPlayerPos(data);
                             int size = QueueManager.getQueued(data).getQueued().size();
 
-                            Messages.REMINDER_FAIL(data.getPlayer(), "whitelisted", pos + 1, size);
+                            Messages.reminderFail(data.getPlayer(), "whitelisted", pos + 1, size);
                         });
 
                         break;

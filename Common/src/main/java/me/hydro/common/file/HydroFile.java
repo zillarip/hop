@@ -1,4 +1,4 @@
-package me.hydro.common.redis.file;
+package me.hydro.common.file;
 
 import lombok.Getter;
 import lombok.SneakyThrows;

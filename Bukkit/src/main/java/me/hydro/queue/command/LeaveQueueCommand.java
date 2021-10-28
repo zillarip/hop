@@ -16,7 +16,7 @@ public class LeaveQueueCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.NO_PERMISSION());
+            sender.sendMessage(Messages.noPermission());
             return true;
         }
 
@@ -24,11 +24,11 @@ public class LeaveQueueCommand implements TabExecutor {
         PlayerData data = PlayerData.players.get(player.getUniqueId());
 
         if (!QueueManager.isQueued(data)) {
-            player.sendMessage(Messages.NOT_QUEUED());
+            player.sendMessage(Messages.notQueued());
             return true;
         }
 
-        Messages.LEFT_QUEUE(QueueManager.getQueued(data).getName());
+        Messages.leftQueue(QueueManager.getQueued(data).getName());
         QueueManager.removeFromQueue(data);
 
         return true;

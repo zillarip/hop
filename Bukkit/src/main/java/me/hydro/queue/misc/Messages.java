@@ -1,62 +1,62 @@
 package me.hydro.queue.misc;
 
-import me.hydro.common.redis.misc.Color;
+import me.hydro.common.misc.Color;
 import me.hydro.queue.HydroQueue;
 import org.bukkit.entity.Player;
 
 public class Messages {
 
-    public static String JOINED_QUEUE(String queue) {
+    public static String joinedQueue(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.joined-queue")
                 .replace("{queue}", queue));
     }
 
-    public static String LEFT_QUEUE(String queue) {
+    public static String leftQueue(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.left-queue")
                 .replace("{queue}", queue));
     }
 
-    public static String SENDING(String queue) {
+    public static String sending(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.sending")
                 .replace("{queue}", queue));
     }
 
-    public static String ALREADY_QUEUED() {
+    public static String alreadyQueued() {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.already-queued"));
     }
 
-    public static String NOT_QUEUED() {
+    public static String notQueued() {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.not-queued"));
     }
 
-    public static String FAILURE(String queue) {
+    public static String failure(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.failed")
                 .replace("{queue}", queue));
     }
 
-    public static String NO_PERMISSION() {
+    public static String noPermission() {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.no-perm"));
     }
 
-    public static String UNKNOWN(String queue) {
+    public static String unknown(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.queue-unknown")
                 .replace("{queue}", queue));
     }
 
-    public static String RESTRICTED(String queue) {
+    public static String restricted(String queue) {
         return Color.translate(HydroQueue.getInstance().getSettings().getConfig().getString("messages.restricted-queue")
                 .replace("{queue}", queue));
     }
 
     // Multi-lines
-    public static void REMINDER(Player player, int pos, int size) {
+    public static void reminder(Player player, int pos, int size) {
         HydroQueue.getInstance().getSettings().getConfig().getStringList("messages.reminder").forEach(line -> {
             line = Color.translate(line);
             player.sendMessage(line.replace("{pos}", pos + "").replace("{size}", size + ""));
         });
     }
 
-    public static void REMINDER_FAIL(Player player, String reason, int pos, int size) {
+    public static void reminderFail(Player player, String reason, int pos, int size) {
         HydroQueue.getInstance().getSettings().getConfig().getStringList("messages.reminder-" + reason).forEach(line -> {
             line = Color.translate(line);
             player.sendMessage(line.replace("{pos}", pos + "").replace("{size}", size + ""));

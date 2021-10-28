@@ -1,9 +1,8 @@
 package me.hydro.queueclient.listeners;
 
-import me.hydro.common.redis.event.RedisMessageEvent;
-import me.hydro.common.redis.misc.Logger;
-import me.hydro.common.redis.packet.impl.AllowPacket;
-import me.hydro.common.redis.packet.impl.DenyPacket;
+import me.hydro.common.event.RedisMessageEvent;
+import me.hydro.common.packet.impl.AllowPacket;
+import me.hydro.common.packet.impl.DenyPacket;
 import me.hydro.queueclient.QueueClient;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

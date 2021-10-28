@@ -1,7 +1,7 @@
-package me.hydro.common.redis.packet.impl;
+package me.hydro.common.packet.impl;
 
-import me.hydro.common.redis.Redis;
-import me.hydro.common.redis.packet.Packet;
+import me.hydro.common.Redis;
+import me.hydro.common.packet.Packet;
 
 public class AllowPacket extends Packet {
 

@@ -1,9 +1,9 @@
 package me.hydro.queueclient;
 
 import lombok.Getter;
-import me.hydro.common.redis.Redis;
-import me.hydro.common.redis.file.HydroFile;
-import me.hydro.common.redis.misc.Logger;
+import me.hydro.common.Redis;
+import me.hydro.common.file.HydroFile;
+import me.hydro.common.misc.Logger;
 import me.hydro.queueclient.listeners.MessageListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

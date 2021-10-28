@@ -1,6 +1,6 @@
 package me.hydro.queue.command;
 
-import me.hydro.common.redis.misc.Color;
+import me.hydro.common.misc.Color;
 import me.hydro.queue.HydroQueue;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.Queue;
@@ -16,7 +16,7 @@ public class QueueCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("queue.admin")) {
-            sender.sendMessage(Messages.NO_PERMISSION());
+            sender.sendMessage(Messages.noPermission());
             return true;
         }
 
@@ -28,7 +28,7 @@ public class QueueCommand implements TabExecutor {
         String queueName = args[0].toLowerCase();
 
         if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queueName)) {
-            sender.sendMessage(Messages.UNKNOWN(args[0]));
+            sender.sendMessage(Messages.unknown(args[0]));
             return true;
         }
 

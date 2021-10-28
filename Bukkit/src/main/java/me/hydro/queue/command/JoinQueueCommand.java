@@ -1,6 +1,6 @@
 package me.hydro.queue.command;
 
-import me.hydro.common.redis.misc.Color;
+import me.hydro.common.misc.Color;
 import me.hydro.queue.HydroQueue;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.PlayerData;
@@ -19,7 +19,7 @@ public class JoinQueueCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.NO_PERMISSION());
+            sender.sendMessage(Messages.noPermission());
             return true;
         }
 
@@ -28,7 +28,7 @@ public class JoinQueueCommand implements TabExecutor {
 
         if (HydroQueue.getInstance().getSettings().getConfig().getBoolean("permission-by-default")
                 && !player.hasPermission("queue.join")) {
-            player.sendMessage(Messages.NO_PERMISSION());
+            player.sendMessage(Messages.noPermission());
             return true;
         }
 
@@ -40,12 +40,12 @@ public class JoinQueueCommand implements TabExecutor {
         String queue = args[0].toLowerCase();
 
         if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queue)) {
-            player.sendMessage(Messages.UNKNOWN(args[0]));
+            player.sendMessage(Messages.unknown(args[0]));
             return true;
         }
 
         if (QueueManager.isQueued(data)) {
-            player.sendMessage(Messages.ALREADY_QUEUED());
+            player.sendMessage(Messages.alreadyQueued());
             return true;
         }
 
@@ -54,7 +54,7 @@ public class JoinQueueCommand implements TabExecutor {
         boolean bypass = player.hasPermission("queue.bypass");
 
         QueueManager.addToQueue(data, queue, bypass ? 0 : -1);
-        player.sendMessage(Messages.JOINED_QUEUE(QueueManager.getQueue(queue).getName()));
+        player.sendMessage(Messages.joinedQueue(QueueManager.getQueue(queue).getName()));
 
         return true;
     }

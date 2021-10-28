@@ -1,10 +1,10 @@
 package me.hydro.queue;
 
 import lombok.Getter;
-import me.hydro.common.redis.Redis;
-import me.hydro.common.redis.file.HydroFile;
-import me.hydro.common.redis.misc.Logger;
-import me.hydro.common.redis.packet.impl.StatusPacket;
+import me.hydro.common.Redis;
+import me.hydro.common.file.HydroFile;
+import me.hydro.common.misc.Logger;
+import me.hydro.common.packet.impl.StatusPacket;
 import me.hydro.queue.command.JoinQueueCommand;
 import me.hydro.queue.command.LeaveQueueCommand;
 import me.hydro.queue.command.QueueCommand;
@@ -71,7 +71,6 @@ public final class HydroQueue extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             for (Queue queue : Queue.queues) {
                 new StatusPacket(redis, queue.getId()).send();
-                // TODO: error buffers
 
                 Bukkit.getScheduler().runTaskLater(HydroQueue.getInstance(), () -> {
                     if (!receivedResponse.contains(queue.getId())) {
@@ -82,7 +81,7 @@ public final class HydroQueue extends JavaPlugin {
                             int pos = QueueManager.getPlayerPos(data);
                             int size = QueueManager.getQueued(data).getQueued().size();
 
-                            Messages.REMINDER_FAIL(player, "offline", pos + 1, size);
+                            Messages.reminderFail(player, "offline", pos + 1, size);
                         }
                     } else receivedResponse.remove(queue.getId());
                 }, 10L);

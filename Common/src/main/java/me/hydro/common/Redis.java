@@ -1,9 +1,9 @@
-package me.hydro.common.redis;
+package me.hydro.common;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import me.hydro.common.redis.event.RedisMessageEvent;
+import me.hydro.common.event.RedisMessageEvent;
 import org.bukkit.Bukkit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

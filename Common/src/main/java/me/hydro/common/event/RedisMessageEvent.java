@@ -1,4 +1,4 @@
-package me.hydro.common.redis.event;
+package me.hydro.common.event;
 
 import lombok.Getter;
 import org.bukkit.event.Event;
