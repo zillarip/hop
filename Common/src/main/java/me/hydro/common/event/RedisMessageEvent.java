@@ -21,8 +21,9 @@ public class RedisMessageEvent extends Event {
     private final String channel, message;
 
     public RedisMessageEvent(String channel, String message) {
+        super(true);
+
         this.channel = channel;
         this.message = message;
     }
-
 }
