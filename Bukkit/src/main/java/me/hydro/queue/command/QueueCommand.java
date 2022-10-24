@@ -25,14 +25,15 @@ public class QueueCommand implements TabExecutor {
             return true;
         }
 
-        String queueName = args[0].toLowerCase();
+        final String queueName = args[0].toLowerCase();
 
         if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queueName)) {
             sender.sendMessage(Messages.unknown(args[0]));
             return true;
         }
 
-        Queue queue = Queue.queues.stream().filter(q -> q.getId().equals(queueName)).findFirst().get();
+        final Queue queue = Queue.queues.stream().filter(q -> q.getId().equals(queueName)).findFirst().get();
+
         sender.sendMessage(Color.translate("&7&m-------------------------------------"));
         sender.sendMessage(Color.translate("&3&lQueue Info for '" + queue.getId() + "'"));
         sender.sendMessage(Color.translate("&7"));

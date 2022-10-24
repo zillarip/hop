@@ -18,7 +18,7 @@ public class PlayerListeners implements Listener {
     @EventHandler
     @SneakyThrows
     public void onLeave(PlayerQuitEvent event) {
-        PlayerData data = PlayerData.players.get(event.getPlayer().getUniqueId());
+        final PlayerData data = PlayerData.players.get(event.getPlayer().getUniqueId());
         if (QueueManager.isQueued(data))
             QueueManager.getQueued(data).getQueued().remove(event.getPlayer().getUniqueId());
 

@@ -51,7 +51,8 @@ public class Redis {
 
     private void subscribe() {
         new Thread(() -> {
-            Jedis jedis = new Jedis(this.host, this.port);
+            final Jedis jedis = new Jedis(this.host, this.port);
+
             if (enabled) jedis.auth(this.password);
 
             jedis.subscribe(new JedisPubSub() {
@@ -66,7 +67,7 @@ public class Redis {
     @SneakyThrows
     public void message(String channel, String message) {
         executorService.execute(() -> {
-            Jedis jedis = new Jedis(this.host, this.port);
+            final Jedis jedis = new Jedis(this.host, this.port);
             if (enabled) jedis.auth(password);
 
             jedis.publish(channel, message);

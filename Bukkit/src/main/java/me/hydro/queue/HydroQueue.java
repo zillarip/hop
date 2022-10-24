@@ -46,11 +46,12 @@ public final class HydroQueue extends JavaPlugin {
                 this.settings.getConfig().getString("redis.auth.password"));
 
         for (String queueId : queues.getConfig().getConfigurationSection("queues").getKeys(false)) {
-            boolean restricted = queues.getConfig().getBoolean("queues." + queueId + ".restricted");
-            String display = queues.getConfig().getString("queues." + queueId + ".display");
-            String bungee = queues.getConfig().getString("queues." + queueId + ".bungee");
+            final boolean restricted = queues.getConfig().getBoolean("queues." + queueId + ".restricted");
 
-            Queue queue = new Queue(queueId, display, bungee, restricted);
+            final String display = queues.getConfig().getString("queues." + queueId + ".display");
+            final String bungee = queues.getConfig().getString("queues." + queueId + ".bungee");
+
+            final Queue queue = new Queue(queueId, display, bungee, restricted);
             Queue.queues.add(queue);
         }
 
@@ -74,12 +75,12 @@ public final class HydroQueue extends JavaPlugin {
 
                 Bukkit.getScheduler().runTaskLater(HydroQueue.getInstance(), () -> {
                     if (!receivedResponse.contains(queue.getId())) {
-                        for (UUID uuid : queue.getQueued()) {
-                            Player player = Bukkit.getPlayer(uuid);
-                            PlayerData data = PlayerData.players.get(uuid);
+                        for (final UUID uuid : queue.getQueued()) {
+                            final Player player = Bukkit.getPlayer(uuid);
+                            final PlayerData data = PlayerData.players.get(uuid);
 
-                            int pos = QueueManager.getPlayerPos(data);
-                            int size = QueueManager.getQueued(data).getQueued().size();
+                            final int pos = QueueManager.getPlayerPos(data);
+                            final int size = QueueManager.getQueued(data).getQueued().size();
 
                             Messages.reminderFail(player, "offline", pos + 1, size);
                         }

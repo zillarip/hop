@@ -20,8 +20,8 @@ public class LeaveQueueCommand implements TabExecutor {
             return true;
         }
 
-        Player player = (Player) sender;
-        PlayerData data = PlayerData.players.get(player.getUniqueId());
+        final Player player = (Player) sender;
+        final PlayerData data = PlayerData.players.get(player.getUniqueId());
 
         if (!QueueManager.isQueued(data)) {
             player.sendMessage(Messages.notQueued());

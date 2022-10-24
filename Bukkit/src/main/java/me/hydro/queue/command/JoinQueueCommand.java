@@ -23,8 +23,8 @@ public class JoinQueueCommand implements TabExecutor {
             return true;
         }
 
-        Player player = (Player) sender;
-        PlayerData data = PlayerData.players.get(player.getUniqueId());
+        final Player player = (Player) sender;
+        final PlayerData data = PlayerData.players.get(player.getUniqueId());
 
         if (HydroQueue.getInstance().getSettings().getConfig().getBoolean("permission-by-default")
                 && !player.hasPermission("queue.join")) {
@@ -37,7 +37,7 @@ public class JoinQueueCommand implements TabExecutor {
             return true;
         }
 
-        String queue = args[0].toLowerCase();
+        final String queue = args[0].toLowerCase();
 
         if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queue)) {
             player.sendMessage(Messages.unknown(args[0]));
@@ -51,7 +51,7 @@ public class JoinQueueCommand implements TabExecutor {
 
         // TODO: queue priorities
 
-        boolean bypass = player.hasPermission("queue.bypass");
+        final boolean bypass = player.hasPermission("queue.bypass");
 
         QueueManager.addToQueue(data, queue, bypass ? 0 : -1);
         player.sendMessage(Messages.joinedQueue(QueueManager.getQueue(queue).getName()));
