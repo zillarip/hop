@@ -15,12 +15,13 @@ public class MessageListener implements Listener {
 
     @EventHandler
     public void onRedisMessage(RedisMessageEvent event) {
-        String channel = event.getChannel();
-        String message = event.getMessage();
+        final String channel = event.getChannel();
+        final String message = event.getMessage();
 
         switch (channel) {
             case "STATUS": {
-                String server = message;
+                final String server = message;
+
                 if (server.equals(QueueClient.getInstance().getRepresenting())) {
                     if (Bukkit.getOnlinePlayers().size() == Bukkit.getMaxPlayers()) {
                         new DenyPacket(QueueClient.getInstance().getRedis(), server, "MAX").send();
@@ -28,11 +29,12 @@ public class MessageListener implements Listener {
                     }
 
                     if (Bukkit.hasWhitelist()) {
-                        List<String> whitelistedList = Bukkit.getWhitelistedPlayers().stream().map(p -> p.getName())
+                        final List<String> whitelistedList = Bukkit.getWhitelistedPlayers().stream()
+                                .map(p -> p.getUniqueId().toString())
                                 .collect(Collectors.toList());
 
                         String whitelisted = String.join(",", whitelistedList);
-                        new DenyPacket(QueueClient.getInstance().getRedis(), server, "WHITELISTED@@").send();
+                        new DenyPacket(QueueClient.getInstance().getRedis(), server, "WHITELISTED@@" + whitelisted).send();
 
                         return;
                     }
