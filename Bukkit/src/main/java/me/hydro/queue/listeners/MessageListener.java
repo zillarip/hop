@@ -1,11 +1,12 @@
 package me.hydro.queue.listeners;
 
-import me.hydro.common.event.RedisMessageEvent;
-import me.hydro.queue.HydroQueue;
+import me.hydro.queue.api.ManagerHandle;
+import me.hydro.queue.common.event.RedisMessageEvent;
+import me.hydro.queue.Hop;
+import me.hydro.queue.impl.QueueManager;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.PlayerData;
 import me.hydro.queue.api.Queue;
-import me.hydro.queue.api.QueueManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,30 +20,46 @@ import java.util.List;
 public class MessageListener implements Listener {
 
     @EventHandler
-    public void onRedisMessage(RedisMessageEvent event) {
+    public void onRedisMessage(final RedisMessageEvent event) {
         final String channel = event.getChannel();
         final String message = event.getMessage();
 
         switch (channel) {
             case "ALLOW": {
-                final String server = message;
-                final Queue queue = Queue.queues.stream().filter(q -> q.getId().equals(server)).findFirst().get();
+                final Queue queue = Queue.getQueues().get(message);
 
-                if (queue.getQueued().size() == 0) return;
+                if (queue.getQueued().isEmpty()) return;
 
-                final PlayerData first = PlayerData.players.get(queue.getQueued().getFirst());
+                PlayerData firstCandidate;
 
-                queue.getQueued().parallelStream().map(uuid -> PlayerData.players.get(uuid)).forEach(data -> {
+                do {
+                    if (queue.getQueued().isEmpty()) return;
+
+                    firstCandidate = PlayerData.getPlayers().get(queue.getQueued().getFirst());
+
+                    if (firstCandidate.getAttempts() >= Hop.getInstance().getSettings().getConfig().getInt("max-send-attempts")) {
+                        firstCandidate.getPlayer().sendMessage(Messages.failure(queue.getName()));
+                        ManagerHandle.getImplementation().removeFromQueue(firstCandidate);
+
+                        firstCandidate = null;
+                    }
+                } while (firstCandidate == null);
+
+                final PlayerData first = firstCandidate;
+
+                queue.getQueued().parallelStream().map(uuid -> PlayerData.getPlayers().get(uuid)).forEach(data -> {
                     if (data != first) {
-                        int pos = QueueManager.getPlayerPos(data);
-                        int size = QueueManager.getQueued(data).getQueued().size();
+                        int pos = ManagerHandle.getImplementation().getPlayerPos(data);
+                        int size = ManagerHandle.getImplementation().getQueued(data).getQueued().size();
 
                         Messages.reminder(data.getPlayer(), pos + 1, size);
                     }
                 });
 
+                first.setAttempts(first.getAttempts() + 1);
+
                 sendToServer(queue, first);
-                acknowledged(server);
+                acknowledged(message);
 
                 break;
             }
@@ -52,14 +69,15 @@ public class MessageListener implements Listener {
                 final String server = split[0];
                 final String reason = split[1];
 
-                final Queue queue = Queue.queues.stream().filter(q -> q.getId().equals(server)).findFirst().get();
-                if (queue.getQueued().size() == 0) return;
+                final Queue queue = Queue.getQueues().get(server);
+
+                if (queue.getQueued().isEmpty()) return;
 
                 switch (reason) {
                     case "MAX": {
-                        queue.getQueued().parallelStream().map(uuid -> PlayerData.players.get(uuid)).forEach(data -> {
-                            int pos = QueueManager.getPlayerPos(data);
-                            int size = QueueManager.getQueued(data).getQueued().size();
+                        queue.getQueued().parallelStream().map(uuid -> PlayerData.getPlayers().get(uuid)).forEach(data -> {
+                            final int pos = ManagerHandle.getImplementation().getPlayerPos(data);
+                            final int size = ManagerHandle.getImplementation().getQueued(data).getQueued().size();
 
                             Messages.reminderFail(data.getPlayer(), "max", pos + 1, size);
                         });
@@ -69,7 +87,7 @@ public class MessageListener implements Listener {
                     case "WHITELISTED": {
                         final List<String> whitelisted = Arrays.asList(split[2].split(","));
 
-                        queue.getQueued().parallelStream().map(uuid -> PlayerData.players.get(uuid)).forEach(data -> {
+                        queue.getQueued().parallelStream().map(uuid -> PlayerData.getPlayers().get(uuid)).forEach(data -> {
                             if (whitelisted.contains(data.getPlayer().getUniqueId().toString())) {
                                 // This is not the greatest fix, but it *should* work
                                 // Theoretically, there won't be that many whitelisted players all
@@ -77,8 +95,8 @@ public class MessageListener implements Listener {
                                 sendToServer(queue, data);
                             }
 
-                            final int pos = QueueManager.getPlayerPos(data);
-                            final int size = QueueManager.getQueued(data).getQueued().size();
+                            final int pos = ManagerHandle.getImplementation().getPlayerPos(data);
+                            final int size = ManagerHandle.getImplementation().getQueued(data).getQueued().size();
 
                             Messages.reminderFail(data.getPlayer(), "whitelisted", pos + 1, size);
                         });
@@ -105,11 +123,11 @@ public class MessageListener implements Listener {
             Bukkit.getLogger().info("You'll never see me!");
         }
 
-        player.getPlayer().sendPluginMessage(HydroQueue.getInstance(), "BungeeCord", b.toByteArray());
+        player.getPlayer().sendPluginMessage(Hop.getInstance(), "BungeeCord", b.toByteArray());
         player.getPlayer().sendMessage(Messages.sending(queue.getName()));
     }
 
-    private void acknowledged(String server) {
-        HydroQueue.getInstance().getReceivedResponse().add(server);
+    private void acknowledged(final String server) {
+        Hop.getInstance().getReceivedResponse().add(server);
     }
 }

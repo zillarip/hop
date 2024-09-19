@@ -1,9 +1,9 @@
-package me.hydro.common.packet;
+package me.hydro.queue.common.packet;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import me.hydro.common.Redis;
+import me.hydro.queue.common.Redis;
 
 @Getter
 @Setter

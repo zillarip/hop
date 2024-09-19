@@ -1,7 +1,6 @@
-name: zQClient
+name: HopClient
 version: ${project.version}
 main: me.hydro.queueclient.QueueClient
-prefix: zQClient
-authors: [ Zilla ]
-description: Queue client for zQueue
-website: zilla.gg
+prefix: HopClient
+authors: [ Hydrogen ]
+website: zilla.rip

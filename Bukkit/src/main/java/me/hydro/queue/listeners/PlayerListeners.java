@@ -1,8 +1,8 @@
 package me.hydro.queue.listeners;
 
 import lombok.SneakyThrows;
+import me.hydro.queue.api.ManagerHandle;
 import me.hydro.queue.api.PlayerData;
-import me.hydro.queue.api.QueueManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,16 +12,20 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        new PlayerData(event.getPlayer());
+        final PlayerData data = new PlayerData(event.getPlayer());
+
+        PlayerData.getPlayers().put(event.getPlayer().getUniqueId(), data);
     }
 
     @EventHandler
     @SneakyThrows
     public void onLeave(PlayerQuitEvent event) {
-        final PlayerData data = PlayerData.players.get(event.getPlayer().getUniqueId());
-        if (QueueManager.isQueued(data))
-            QueueManager.getQueued(data).getQueued().remove(event.getPlayer().getUniqueId());
+        final PlayerData data = PlayerData.getPlayers().get(event.getPlayer().getUniqueId());
 
-        PlayerData.players.remove(event.getPlayer().getUniqueId());
+        if (ManagerHandle.getImplementation().isQueued(data)) {
+            ManagerHandle.getImplementation().getQueued(data).getQueued().remove(event.getPlayer().getUniqueId());
+        }
+
+        PlayerData.getPlayers().remove(event.getPlayer().getUniqueId());
     }
 }

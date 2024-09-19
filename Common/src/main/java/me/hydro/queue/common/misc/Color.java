@@ -1,4 +1,4 @@
-package me.hydro.common.misc;
+package me.hydro.queue.common.misc;
 
 import org.bukkit.ChatColor;
 

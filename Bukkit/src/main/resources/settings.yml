@@ -1,9 +1,6 @@
 #
-# HydroQueue v3
-# A modern queue system.
-#
-# Unauthorized distribution is strictly forbidden
-# and can be legally prosecuted.
+# Hop v3
+# https://github.com/zillarip/hop
 #
 
 ## PERMISSIONS BREAKDOWN
@@ -22,10 +19,14 @@ redis:
 # The interval, in seconds, that the plugin will contact the servers at.
 interval: 5
 
-# Whether or not users should have permission to join un-restricted queues by default.
+# Whether users should have permission to join un-restricted queues by default.
 # true - they can
 # false - requires 'queue.join'
 permission-by-default: true
+
+# How many times to try sending a player to a server before they're removed from the queue
+# Set to 0 to disable this (not recommended)
+max-send-attempts: 3
 
 messages:
   joined-queue: '&aYou''ve been added to the &e{queue} &aqueue.'
@@ -33,7 +34,7 @@ messages:
   sending: '&aYou''re now being sent to &e{queue}&a.'
   already-queued: '&cYou''re already queued for a server!'
   not-queued: '&cYou''re not queued!'
-  failed: '&cFailed to send you to &e{queue}&c, please contact a Developer!'
+  failed: '&cWe weren''t able to send you to &e{queue}&c.'
   no-perm: '&cYou''re not allowed to join queues!'
   restricted-queue: '&cYou''re not allowed to join that queue!'
   queue-unknown: '&cError: There is no queue named &e{queue}'

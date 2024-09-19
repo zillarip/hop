@@ -1,10 +1,10 @@
-name: zQueue
+name: Hop
 version: ${project.version}
-main: me.hydro.queue.HydroQueue
-prefix: zQueue
-authors: [ Zilla ]
+main: me.hydro.queue.Hop
+prefix: Hop
+authors: [ Hydrogen ]
 description: Modern queue system
-website: zilla.gg
+website: zilla.rip
 commands:
   joinqueue:
     aliases: [joinq]

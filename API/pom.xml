@@ -5,12 +5,12 @@
     <parent>
         <artifactId>Queue</artifactId>
         <groupId>me.hydro</groupId>
-        <version>3.2</version>
+        <version>3.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>API</artifactId>
-    <version>3.2</version>
+    <version>3.3</version>
     <packaging>jar</packaging>
 
     <description>A modern queue system.</description>

@@ -1,4 +1,4 @@
-package me.hydro.common.file;
+package me.hydro.queue.common.file;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -8,16 +8,18 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 
-public class HydroFile {
+public class HopFile {
 
-    private File file;
+    private final File file;
+
     @Getter private FileConfiguration config;
 
     @SneakyThrows
-    public HydroFile(Plugin plugin, String fileName) {
-        file = new File(plugin.getDataFolder(), fileName + ".yml");
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
+    public HopFile(Plugin plugin, String fileName) {
+        this.file = new File(plugin.getDataFolder(), fileName + ".yml");
+
+        if (!this.file.exists()) {
+            this.file.getParentFile().mkdirs();
             plugin.saveResource(fileName + ".yml", false);
         }
 
@@ -26,12 +28,12 @@ public class HydroFile {
 
     @SneakyThrows
     public void save() {
-        config.save(this.file);
-        reload();
+        this.config.save(this.file);
+        this.reload();
     }
 
     @SneakyThrows
     public void reload() {
-        config = YamlConfiguration.loadConfiguration(this.file);
+        this.config = YamlConfiguration.loadConfiguration(this.file);
     }
 }

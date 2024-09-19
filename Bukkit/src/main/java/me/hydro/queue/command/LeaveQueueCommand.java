@@ -1,8 +1,8 @@
 package me.hydro.queue.command;
 
+import me.hydro.queue.api.ManagerHandle;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.PlayerData;
-import me.hydro.queue.api.QueueManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -21,15 +21,16 @@ public class LeaveQueueCommand implements TabExecutor {
         }
 
         final Player player = (Player) sender;
-        final PlayerData data = PlayerData.players.get(player.getUniqueId());
+        final PlayerData data = PlayerData.getPlayers().get(player.getUniqueId());
 
-        if (!QueueManager.isQueued(data)) {
+        if (!ManagerHandle.getImplementation().isQueued(data)) {
             player.sendMessage(Messages.notQueued());
             return true;
         }
 
-        Messages.leftQueue(QueueManager.getQueued(data).getName());
-        QueueManager.removeFromQueue(data);
+        player.sendMessage(Messages.leftQueue(ManagerHandle.getImplementation().getQueued(data).getName()));
+
+        ManagerHandle.getImplementation().removeFromQueue(data);
 
         return true;
     }

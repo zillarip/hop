@@ -1,11 +1,11 @@
 package me.hydro.queue.command;
 
-import me.hydro.common.misc.Color;
-import me.hydro.queue.HydroQueue;
+import me.hydro.queue.api.ManagerHandle;
+import me.hydro.queue.common.misc.Color;
+import me.hydro.queue.Hop;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.PlayerData;
 import me.hydro.queue.api.Queue;
-import me.hydro.queue.api.QueueManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -24,9 +24,9 @@ public class JoinQueueCommand implements TabExecutor {
         }
 
         final Player player = (Player) sender;
-        final PlayerData data = PlayerData.players.get(player.getUniqueId());
+        final PlayerData data = PlayerData.getPlayers().get(player.getUniqueId());
 
-        if (HydroQueue.getInstance().getSettings().getConfig().getBoolean("permission-by-default")
+        if (Hop.getInstance().getSettings().getConfig().getBoolean("permission-by-default")
                 && !player.hasPermission("queue.join")) {
             player.sendMessage(Messages.noPermission());
             return true;
@@ -39,12 +39,17 @@ public class JoinQueueCommand implements TabExecutor {
 
         final String queue = args[0].toLowerCase();
 
-        if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queue)) {
+        if (!Hop.getInstance().getQueues().getConfig().contains("queues." + queue)) {
             player.sendMessage(Messages.unknown(args[0]));
             return true;
         }
 
-        if (QueueManager.isQueued(data)) {
+        if (!ManagerHandle.getImplementation().getQueue(queue).hasPermission(player)) {
+            player.sendMessage(Messages.restricted(queue));
+            return true;
+        }
+
+        if (ManagerHandle.getImplementation().isQueued(data)) {
             player.sendMessage(Messages.alreadyQueued());
             return true;
         }
@@ -53,14 +58,17 @@ public class JoinQueueCommand implements TabExecutor {
 
         final boolean bypass = player.hasPermission("queue.bypass");
 
-        QueueManager.addToQueue(data, queue, bypass ? 0 : -1);
-        player.sendMessage(Messages.joinedQueue(QueueManager.getQueue(queue).getName()));
+        data.setQueuedFor(queue);
+
+        ManagerHandle.getImplementation().addToQueue(data, queue, bypass ? 0 : -1);
+        player.sendMessage(Messages.joinedQueue(ManagerHandle.getImplementation().getQueue(queue).getName()));
 
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return Queue.queues.stream().filter(q -> q.hasPermission(sender)).map(Queue::getId).collect(Collectors.toList());
+        return Queue.getQueues().values().stream().filter(q -> q.hasPermission(sender))
+                .map(Queue::getId).collect(Collectors.toList());
     }
 }

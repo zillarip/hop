@@ -1,15 +1,15 @@
 package me.hydro.queue.command;
 
-import me.hydro.common.misc.Color;
-import me.hydro.queue.HydroQueue;
+import me.hydro.queue.common.misc.Color;
+import me.hydro.queue.Hop;
 import me.hydro.queue.misc.Messages;
 import me.hydro.queue.api.Queue;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class QueueCommand implements TabExecutor {
 
@@ -27,12 +27,12 @@ public class QueueCommand implements TabExecutor {
 
         final String queueName = args[0].toLowerCase();
 
-        if (!HydroQueue.getInstance().getQueues().getConfig().contains("queues." + queueName)) {
+        if (!Hop.getInstance().getQueues().getConfig().contains("queues." + queueName)) {
             sender.sendMessage(Messages.unknown(args[0]));
             return true;
         }
 
-        final Queue queue = Queue.queues.stream().filter(q -> q.getId().equals(queueName)).findFirst().get();
+        final Queue queue = Queue.getQueues().get(queueName);
 
         sender.sendMessage(Color.translate("&7&m-------------------------------------"));
         sender.sendMessage(Color.translate("&3&lQueue Info for '" + queue.getId() + "'"));
@@ -48,7 +48,6 @@ public class QueueCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return Queue.queues.stream().map(Queue::getId).collect(Collectors.toList());
+        return new ArrayList<>(Queue.getQueues().keySet());
     }
-
 }

@@ -1,7 +1,7 @@
-package me.hydro.common.packet.impl;
+package me.hydro.queue.common.packet.impl;
 
-import me.hydro.common.Redis;
-import me.hydro.common.packet.Packet;
+import me.hydro.queue.common.Redis;
+import me.hydro.queue.common.packet.Packet;
 
 public class DenyPacket extends Packet {
 
