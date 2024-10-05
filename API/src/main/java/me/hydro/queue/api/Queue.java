@@ -1,17 +1,14 @@
 package me.hydro.queue.api;
 
+import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Data
 public class Queue {
 
     @Getter

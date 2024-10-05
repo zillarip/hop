@@ -28,12 +28,18 @@ public class MessageListener implements Listener {
             case "ALLOW": {
                 final Queue queue = Queue.getQueues().get(message);
 
-                if (queue.getQueued().isEmpty()) return;
+                if (queue.getQueued().isEmpty()) {
+                    acknowledged(message);
+                    return;
+                }
 
                 PlayerData firstCandidate;
 
                 do {
-                    if (queue.getQueued().isEmpty()) return;
+                    if (queue.getQueued().isEmpty()) {
+                        acknowledged(message);
+                        return;
+                    }
 
                     firstCandidate = PlayerData.getPlayers().get(queue.getQueued().getFirst());
 
@@ -71,7 +77,10 @@ public class MessageListener implements Listener {
 
                 final Queue queue = Queue.getQueues().get(server);
 
-                if (queue.getQueued().isEmpty()) return;
+                if (queue.getQueued().isEmpty()) {
+                    acknowledged(server);
+                    return;
+                }
 
                 switch (reason) {
                     case "MAX": {
